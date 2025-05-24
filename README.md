@@ -104,12 +104,3 @@ This project allows users to dynamically create Google Forms from a text-based q
     *   Install the SDK: `cd sdk && pip install ./google_form_sdk && cd ..`
     *   Ensure the backend is running.
     *   Run the script: `python sdk_usage_example.py`
-
-## Bonus Features (Potential Extensions)
-
-*   **Enhanced Email Workflow:** Customize email body, support multiple recipients, use templates.
-*   **Preview Mode:** UI preview of questions before actual Google Form creation.
-*   **Authentication:** Restrict survey creation/approval to logged-in users (e.g., using OAuth with FastAPI).
-*   **More Question Types:** Extend question parsing to support different Google Form question types (multiple choice, checkboxes, etc.) by using a JSON input format.
-*   **Delete Google Form:** Implement actual deletion of the Google Form file from Google Drive when a survey is deleted in the system (requires Google Drive API scope).
-*   **Containerization:** Dockerize the frontend and backend for easier deployment.
