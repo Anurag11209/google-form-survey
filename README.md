@@ -44,4 +44,72 @@ This project allows users to dynamically create Google Forms from a text-based q
     *   Download the JSON file. Rename it to `credentials.json`.
 5.  **Place the `credentials.json` file into the `backend/` directory of this project.**
 
-## Project Structure
+
+## Setup
+
+1.  Clone the repository:
+    ```bash
+    git clone <your-repo-url>
+    cd google-forms-creator
+    ```
+2.  Run the setup script (for Linux/macOS):
+    ```bash
+    chmod +x scripts/setup.sh
+    ./scripts/setup.sh
+    ```
+    This will:
+    *   Set up a Python virtual environment for the backend and install dependencies.
+    *   Install Node.js dependencies for the frontend.
+    *   Remind you to place `credentials.json` in `backend/`.
+
+## Running the System
+
+1.  Run the execution script (for Linux/macOS):
+    ```bash
+    chmod +x scripts/run.sh
+    ./scripts/run.sh
+    ```
+    This script will:
+    *   Start the FastAPI backend (default: `http://localhost:8000`).
+        *   **Important:** The first time the backend starts and tries to access Google APIs, it will print a URL to your console. Copy this URL into your browser, authenticate with your Google account, and grant the requested permissions. You'll be redirected to a localhost URL (or shown a code). The server will capture this and create a `token.json` in the `backend/` directory for future use.
+    *   Start the ReactJS frontend development server (default: `http://localhost:3000`) and open it in your browser.
+
+2.  Access the application:
+    *   Frontend UI: `http://localhost:3000`
+    *   Backend API Docs: `http://localhost:8000/docs`
+
+## Development
+
+### Backend (FastAPI)
+
+*   Located in the `backend/` directory.
+*   Activate virtual environment: `source backend/venv/bin/activate`
+*   Run dev server: `cd backend && uvicorn app.main:app --reload`
+*   Run tests: `cd backend && pytest`
+
+### Frontend (ReactJS)
+
+*   Located in the `frontend/` directory.
+*   Run dev server: `cd frontend && npm start`
+
+### Python SDK
+
+1.  Ensure the FastAPI backend is running.
+2.  Navigate to the project root.
+3.  Generate the SDK:
+    ```bash
+    openapi-generator-cli generate -i http://localhost:8000/openapi.json -g python -o sdk/google_form_sdk --package-name google_form_sdk
+    ```
+4.  An example usage script is `sdk_usage_example.py` in the project root. To run it:
+    *   Install the SDK: `cd sdk && pip install ./google_form_sdk && cd ..`
+    *   Ensure the backend is running.
+    *   Run the script: `python sdk_usage_example.py`
+
+## Bonus Features (Potential Extensions)
+
+*   **Enhanced Email Workflow:** Customize email body, support multiple recipients, use templates.
+*   **Preview Mode:** UI preview of questions before actual Google Form creation.
+*   **Authentication:** Restrict survey creation/approval to logged-in users (e.g., using OAuth with FastAPI).
+*   **More Question Types:** Extend question parsing to support different Google Form question types (multiple choice, checkboxes, etc.) by using a JSON input format.
+*   **Delete Google Form:** Implement actual deletion of the Google Form file from Google Drive when a survey is deleted in the system (requires Google Drive API scope).
+*   **Containerization:** Dockerize the frontend and backend for easier deployment.
